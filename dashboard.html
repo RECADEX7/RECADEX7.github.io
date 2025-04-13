@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recadex - Panel Principal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+</head>
+<body class="dashboard-body">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <svg class="logo" width="120" height="35" viewBox="0 0 150 40">
+                    <text x="10" y="28" fill="#4c1d95" font-size="24" font-weight="bold">Recadex</text>
+                    <circle cx="140" cy="20" r="8" fill="#818cf8"/>
+                </svg>
+            </a>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="bi bi-plus-circle"></i> Nuevo Recado</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="bi bi-bell"></i></a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                            <i class="bi bi-person-circle"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#">Mi Perfil</a></li>
+                            <li><a class="dropdown-item" href="#">Configuración</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#" id="btnLogout">Cerrar Sesión</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5 pt-4">
+        <div class="row g-4">
+            <!-- Panel de Estadísticas -->
+            <div class="col-md-8">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <div class="stat-card gradient-purple animate__animated animate__fadeIn">
+                            <div class="stat-icon">
+                                <i class="bi bi-clock-history"></i>
+                            </div>
+                            <h3>1</h3>
+                            <p>Recados en Proceso</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="stat-card gradient-blue animate__animated animate__fadeIn animate__delay-1s">
+                            <div class="stat-icon">
+                                <i class="bi bi-check-circle"></i>
+                            </div>
+                            <h3>0</h3>
+                            <p>Recados Completados</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="stat-card gradient-green animate__animated animate__fadeIn animate__delay-2s">
+                            <div class="stat-icon">
+                                <i class="bi bi-star"></i>
+                            </div>
+                            <h3>0.0</h3>
+                            <p>Calificación Promedio</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mapa de Seguimiento -->
+                <div class="card mt-4 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i class="bi bi-geo-alt text-primary"></i>
+                            Seguimiento en Tiempo Real
+                        </h5>
+                        <div id="map" style="height: 300px; background-color: #f8f9fa;" onclick="verRecadoActivo()">
+                            <div class="active-recado p-4">
+                                <h5><i class="bi bi-clock-history text-primary"></i> Recado Activo</h5>
+                                <p class="mb-0">Click para ver detalles</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel Lateral -->
+            <div class="col-md-4">
+                <!-- Crear Nuevo Recado -->
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i class="bi bi-plus-circle text-primary"></i>
+                            Crear Nuevo Recado
+                        </h5>
+                        <div class="service-types">
+                            <button class="btn btn-outline-primary mb-2 w-100" onclick="crearRecado('fila')">
+                                <i class="bi bi-people"></i> Hacer Fila
+                            </button>
+                            <button class="btn btn-outline-primary mb-2 w-100" onclick="crearRecado('paquete')">
+                                <i class="bi bi-box-seam"></i> Recoger Paquete
+                            </button>
+                            <button class="btn btn-outline-primary mb-2 w-100" onclick="crearRecado('compras')">
+                                <i class="bi bi-cart"></i> Realizar Compras
+                            </button>
+                            <button class="btn btn-outline-primary w-100" onclick="crearRecado('tramites')">
+                                <i class="bi bi-file-text"></i> Trámites
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Historial Reciente -->
+                <div class="card mt-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Historial Reciente</h5>
+                        <div class="text-center text-muted py-4">
+                            <i class="bi bi-clock-history"></i>
+                            <p class="mt-2">No hay historial para mostrar</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botón de Chat Flotante -->
+    <div class="chat-button" onclick="abrirChat()">
+        <i class="bi bi-chat-dots-fill"></i>
+        <span class="chat-badge">1</span>
+    </div>
+
+    <!-- Modal de Chat -->
+    <div class="chat-modal" id="chatModal">
+        <div class="chat-header">
+            <h5>Centro de Ayuda</h5>
+            <button class="chat-close" onclick="cerrarChat()">
+                <i class="bi bi-x-lg"></i>
+            </button>
+        </div>
+        <div class="chat-options">
+            <div class="chat-option" onclick="seleccionarOpcion('info')">
+                <i class="bi bi-info-circle"></i>
+                <span>Información General</span>
+            </div>
+            <div class="chat-option" onclick="seleccionarOpcion('ayuda')">
+                <i class="bi bi-question-circle"></i>
+                <span>Ayuda con mi Recado</span>
+            </div>
+            <div class="chat-option" onclick="seleccionarOpcion('soporte')">
+                <i class="bi bi-headset"></i>
+                <span>Soporte Técnico</span>
+            </div>
+            <div class="chat-option" onclick="seleccionarOpcion('reclamo')">
+                <i class="bi bi-exclamation-circle"></i>
+                <span>Reclamos</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="dashboard.js"></script>
+</body>
+</html>

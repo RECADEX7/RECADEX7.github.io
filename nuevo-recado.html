@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuevo Recado - Recadex</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="dashboard-body">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="dashboard.html">
+                <i class="bi bi-arrow-left me-2"></i>Volver al Dashboard
+            </a>
+        </div>
+    </nav>
+
+    <div class="container mt-5 pt-4">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title" id="tipoRecado">Nuevo Recado</h3>
+                        <form id="recadoForm">
+                            <div class="mb-3">
+                                <label class="form-label">Ubicación</label>
+                                <input type="text" class="form-control" id="ubicacion" placeholder="Ingresa la dirección">
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Fecha y Hora</label>
+                                <input type="datetime-local" class="form-control" id="fechaHora">
+                            </div>
+
+                            <div class="mb-3" id="camposEspecificos">
+                                <!-- Los campos se cargarán dinámicamente según el tipo de recado -->
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Instrucciones Adicionales</label>
+                                <textarea class="form-control" rows="3" placeholder="Agrega detalles importantes"></textarea>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Presupuesto Estimado</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input type="number" class="form-control" id="presupuesto">
+                                </div>
+                            </div>
+
+                            <!-- Agregar método de pago -->
+                            <div class="mb-4">
+                                <label class="form-label">Método de Pago</label>
+                                <div class="payment-methods">
+                                    <div class="form-check payment-option">
+                                        <input class="form-check-input" type="radio" name="metodoPago" id="pagoEfectivo" value="efectivo" checked>
+                                        <label class="form-check-label payment-label" for="pagoEfectivo">
+                                            <div class="payment-icon">
+                                                <i class="bi bi-cash-stack"></i>
+                                            </div>
+                                            <span>Efectivo</span>
+                                        </label>
+                                    </div>
+                                    <div class="form-check payment-option">
+                                        <input class="form-check-input" type="radio" name="metodoPago" id="pagoTarjeta" value="tarjeta">
+                                        <label class="form-check-label payment-label" for="pagoTarjeta">
+                                            <div class="payment-icon">
+                                                <div class="card-preview-mini">
+                                                    <div class="card-chip"></div>
+                                                    <div class="card-lines">
+                                                        <span></span>
+                                                        <span></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <span>Tarjeta</span>
+                                        </label>
+                                    </div>
+                                    <div class="form-check payment-option">
+                                        <input class="form-check-input" type="radio" name="metodoPago" id="pagoNequi" value="nequi">
+                                        <label class="form-check-label payment-label" for="pagoNequi">
+                                            <img src="https://brandemia.org/contenido/subidas/2023/10/nequi-nuevo-logotipo-1200x670.jpg" alt="Nequi" class="payment-logo">
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Campos de Tarjeta -->
+                                <div id="tarjetaDetalles" class="payment-details mt-3" style="display: none;">
+                                    <div class="card-preview mb-4">
+                                        <div class="credit-card">
+                                            <div class="card-front">
+                                                <div class="chip"></div>
+                                                <div class="card-number" id="cardNumberPreview">**** **** **** ****</div>
+                                                <div class="card-info">
+                                                    <div class="card-holder">
+                                                        <span>Titular</span>
+                                                        <div id="cardHolderPreview">NOMBRE DEL TITULAR</div>
+                                                    </div>
+                                                    <div class="card-expiry">
+                                                        <span>Válida hasta</span>
+                                                        <div id="cardExpiryPreview">MM/YY</div>
+                                                    </div>
+                                                </div>
+                                                <div class="card-brand">
+                                                    <img src="https://cdn.visa.com/v2/assets/images/logos/visa/blue/logo.png" alt="Visa" class="card-brand-logo">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label">Nombre del Titular</label>
+                                        <input type="text" class="form-control" id="cardHolder" placeholder="Nombre como aparece en la tarjeta">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Número de Tarjeta</label>
+                                        <input type="text" class="form-control" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19">
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="form-label">Fecha Expiración</label>
+                                            <input type="text" class="form-control" id="cardExpiry" placeholder="MM/YY" maxlength="5">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">CVV</label>
+                                            <input type="text" class="form-control" id="cardCvv" placeholder="123" maxlength="3">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Campos de Nequi -->
+                                <div id="nequiDetalles" class="payment-details mt-3" style="display: none;">
+                                    <div class="mb-3">
+                                        <label class="form-label">Número de Celular Nequi</label>
+                                        <input type="tel" class="form-control" id="nequiPhone" placeholder="300 123 4567" maxlength="10">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="payment-section mt-3">
+                                <button type="submit" class="btn w-100 btn-lg" style="background-color: #7C3AED; color: white;">
+                                    Crear Recado
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- Panel de Resumen -->
+            <div class="col-md-4">
+                <div class="card resumen-card sticky-top" style="top: 80px">
+                    <div class="card-body">
+                        <h5 class="card-title">Resumen del Recado</h5>
+                        <div class="resumen-contenido">
+                            <div class="resumen-item">
+                                <i class="bi bi-geo-alt"></i>
+                                <div>
+                                    <small>Ubicación</small>
+                                    <p id="resumen-ubicacion">Sin especificar</p>
+                                </div>
+                            </div>
+                            <div class="resumen-item">
+                                <i class="bi bi-clock"></i>
+                                <div>
+                                    <small>Fecha y Hora</small>
+                                    <p id="resumen-fecha">Sin especificar</p>
+                                </div>
+                            </div>
+                            <div class="resumen-item">
+                                <i class="bi bi-cash"></i>
+                                <div>
+                                    <small>Presupuesto</small>
+                                    <p id="resumen-presupuesto">$0.00</p>
+                                </div>
+                            </div>
+                            <div class="resumen-item">
+                                <i class="bi bi-card-text"></i>
+                                <div>
+                                    <small>Detalles</small>
+                                    <p id="resumen-detalles">Sin especificar</p>
+                                </div>
+                            </div>
+                            <div class="resumen-item">
+                                <i class="bi bi-wallet2"></i>
+                                <div>
+                                    <small>Método de Pago</small>
+                                    <p id="resumen-pago">Efectivo</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="resumen-total mt-3 pt-3 border-top">
+                            <h6>Total Estimado</h6>
+                            <h3 id="resumen-total">$0.00</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="nuevo-recado.js"></script>
+</body>
+</html>
